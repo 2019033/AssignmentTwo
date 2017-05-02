@@ -1,11 +1,12 @@
 import socket
-IP = "10.10.18.223"
+IP = "10.10.25.3"
 port = 30000
 buffer = 1024
 applicationName = "Project Mercury"
 	
 class Server():
-	def __init__(self):
+	def __init__(self): 
+		print("Trying to Connect...")
 		self.s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 		self.s.bind((IP,port))
 		self.s.listen(5)
@@ -28,10 +29,11 @@ class Server():
 				self.atpoint = i
 		self.username = self.loginstuff[1:self.atpoint]
 		self.password = self.loginstuff[self.atpoint+1:]
-
-			with open("accounts.txt") as openfile
-				for line in openfile:
-					if 
+		self.tocheck = self.username+self.password
+		with open("accounts.txt","r") as openfile:
+			for line in openfile:
+				if self.tocheck in line:
+					self.conn.send("Good Login".encode('utf-8'))
 
 
 	def createNewLogin(self):
