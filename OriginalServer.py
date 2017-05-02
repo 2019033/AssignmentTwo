@@ -1,7 +1,7 @@
 #Import statements
 import socket
 import _thread
-import usernamePasswordDirectory
+from usernamePasswordDirectory import *
 
 
 #Setup Variables
@@ -18,18 +18,19 @@ global password
 password= ""
 sucessfulLogin= False
 
+def waitForClient():
+    #Beginning search for clients
+    print("Looking for Connections...")
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s.bind((IP,port))
+    s.listen(5)
+    conn, addr = s.accept()
 
-#Beginning search for clients
-print("Looking for Connections...")
-s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-s.bind((IP,port))
-s.listen(5)
-conn, addr = s.accept()
-connection=True
+    _thread.start_new_thread(passwordVerification(),args=(conn,addr))
 
 
 #this function will authenticate the username and password of the user
-def passwordVerification():
+def passwordVerification(conn,addr):
 
     #waiting for the password to be sent
     while True:
@@ -144,7 +145,8 @@ def Messages(Buffer):
         c.send(data.encode('utf-8'))
 
 #Introduction to threading, still learning about this
-_thread.start_new_thread(Messages ,(Buffer, ))
+
+_thread.start_new_thread()
 
 #Runs the program
 while 1:
